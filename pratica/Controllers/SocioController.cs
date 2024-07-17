@@ -5,6 +5,7 @@ using pratica.Models;
 using static pratica.Services.SociosServices.Commands.DeleteSocio;
 using static pratica.Services.SociosServices.Commands.PostSocio;
 using static pratica.Services.SociosServices.Commands.PutSocio;
+using static pratica.Services.SociosServices.Querys.GetAllSocios;
 using static pratica.Services.SociosServices.Querys.GetSocioById;
 
 namespace pratica.Controllers
@@ -45,6 +46,13 @@ namespace pratica.Controllers
         public async Task<Socio> DeleteSocio(int id)
         {
             return await _mediator.Send(new DeleteSocioCommand { Id = id });
+        }
+
+        [HttpGet]
+        [Route("Get-All-Socios")]
+        public async Task<List<Socio>> GetAllSocios()
+        {
+            return await _mediator.Send(new GetAllSociosQuery());
         }
 
     }
