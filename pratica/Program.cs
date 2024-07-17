@@ -2,23 +2,28 @@ using FluentValidation.AspNetCore;
 using MediatR;
 using pratica.Data;
 using System.Reflection;
+using AutoMapper;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
 builder.Services.AddControllers();
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<ApplicationContext>();
+
+// Registrar MediatR
 builder.Services.AddMediatR(config => config.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
 
-builder.Services.AddFluentValidation(config =>
+// Registrar FluentValidation
+builder.Services.AddFluentValidation(config => config.RegisterValidatorsFromAssembly(Assembly.GetExecutingAssembly()));
 
-    config.RegisterValidatorsFromAssembly(Assembly.GetExecutingAssembly())
-);
+// Registrar AutoMapper
+builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
 builder.Services.AddCors(options =>
 {

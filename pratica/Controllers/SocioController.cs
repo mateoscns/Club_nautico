@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using pratica.Dtos;
 using pratica.Models;
 using static pratica.Services.SociosServices.Commands.DeleteSocio;
 using static pratica.Services.SociosServices.Commands.PostSocio;
@@ -50,7 +51,7 @@ namespace pratica.Controllers
 
         [HttpGet]
         [Route("Get-All-Socios")]
-        public async Task<List<Socio>> GetAllSocios()
+        public async Task<List<SocioDTO>> GetAllSocios()
         {
             return await _mediator.Send(new GetAllSociosQuery());
         }

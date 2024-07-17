@@ -1,35 +1,39 @@
-﻿using MediatR;
+﻿using AutoMapper;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using pratica.Data;
+using pratica.Dtos;
 using pratica.Models;
 
 namespace pratica.Services.SociosServices.Querys
 {
     public class GetAllSocios
     {
-        public class GetAllSociosQuery : IRequest<List<Socio>>
+        public class GetAllSociosQuery : IRequest<List<SocioDTO>>
         {
 
         }
 
-        public class GetAllSociosQueryHandler : IRequestHandler<GetAllSociosQuery, List<Socio>>
+        public class GetAllSociosQueryHandler : IRequestHandler<GetAllSociosQuery, List<SocioDTO>>
         {
 
             private readonly ApplicationContext _context;
+            private readonly IMapper _mapper;
 
-            public GetAllSociosQueryHandler(ApplicationContext context)
+            public GetAllSociosQueryHandler(ApplicationContext context, IMapper mapper)
             {
                 _context = context;
+                _mapper = mapper;
             }
 
-            public async Task<List<Socio>> Handle(GetAllSociosQuery request, CancellationToken cancellationToken)
+            public async Task<List<SocioDTO>> Handle(GetAllSociosQuery request, CancellationToken cancellationToken)
             {
                 try
                 {
                     var socios = await _context.Socios.ToListAsync();
                     if(socios.Count != 0)
                     {
-                        return socios;
+                        return _mapper.Map<List<SocioDTO>>(socios);
                     }
                     else
                     {
